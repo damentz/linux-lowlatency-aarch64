@@ -71,7 +71,7 @@ source=("http://www.kernel.org/pub/linux/kernel/v5.x/${_srcname}.tar.xz"
         '0011-bootsplash.patch'
         '0012-bootsplash.patch'
         'config'
-        'linux.preset'
+        'linux-lowlatency.preset'
         '60-linux.hook'
         '90-linux.hook')
 md5sums=('8c7420990de85f6754db287337da08b4'
@@ -298,7 +298,7 @@ _package() {
   "
 
   # install mkinitcpio preset file
-  sed "${_subst}" ../linux.preset |
+  sed "${_subst}" ../${pkgbase}.preset |
     install -Dm644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
 
   # install pacman hooks
