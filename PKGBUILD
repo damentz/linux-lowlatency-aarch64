@@ -2,7 +2,7 @@
 # Maintainer: Dan Johansen <strit@manjaro.org>
 # Contributor: Kevin Mihelich <kevin@archlinuxarm.org>
 
-pkgbase=linux
+pkgbase=linux-lowlatency
 _srcname=linux-5.12
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform"
@@ -131,8 +131,8 @@ md5sums=('8c7420990de85f6754db287337da08b4'
          '1922e3a7727d2bf51641b98d6d354738'
          'd6b7e4e43e42128cf950251e0d0aee23'
          'ecfd8a30c480149005fcf349e4d06f4b'
-         '8701036fb2e4973e0f2b0960d8884c9e'
-         '86d4a35722b5410e3b29fc92dae15d4b'
+         '74df91dfd301d03cfafbe35803a96d8c'
+         '14d399178e2328792c5b0fdc2599597b'
          'ce6c81ad1ad1f8b333fd6077d47abdaf'
          '3dc88030a8f2f5a5f97266d99b149f77')
 
@@ -255,7 +255,7 @@ _package() {
   optdepends=('crda: to set the correct wireless channels of your country')
   provides=('kernel26' "linux=${pkgver}")
   conflicts=('kernel26' 'linux')
-  replaces=('linux-armv8' 'linux-aarch64')
+  replaces=('linux-lowlatency-armv8' 'linux-lowlatency-aarch64')
   backup=("etc/mkinitcpio.d/${pkgbase}.preset")
   install=${pkgname}.install
 
@@ -271,7 +271,7 @@ _package() {
   mkdir -p "${pkgdir}"/{boot,usr/lib/modules}
   make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
   make INSTALL_DTBS_PATH="${pkgdir}/boot/dtbs" dtbs_install
-  cp arch/$KARCH/boot/Image "${pkgdir}/boot"
+  cp arch/$KARCH/boot/Image "${pkgdir}/boot/Image-lowlatency"
 
   # make room for external modules
   local _extramodules="extramodules-${_basekernel}${_kernelname}"
@@ -310,9 +310,9 @@ _package() {
 
 _package-headers() {
   pkgdesc="Header files and scripts for building modules for linux kernel - ${_desc}"
-  provides=("linux-headers=${pkgver}")
-  conflicts=('linux-headers')
-  replaces=('linux-aarch64-headers')
+  provides=("linux-lowlatency-headers=${pkgver}")
+  conflicts=('linux-lowlatency-headers')
+  replaces=('linux-lowlatency-aarch64-headers')
 
   cd ${_srcname}
   local _builddir="${pkgdir}/usr/lib/modules/${_kernver}/build"
